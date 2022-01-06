@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/elkmir/work/open62541/examples/client.c
+open62541/client_config_default.h
+-
+open62541/client_highlevel.h
+-
+open62541/client_subscriptions.h
+-
+open62541/plugin/log_stdout.h
+-
+stdlib.h
+-
+

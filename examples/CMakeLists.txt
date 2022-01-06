@@ -111,6 +111,8 @@ endif()
 # Example Server #
 ##################
 
+add_example(server server.c)
+
 add_example(server_ctt server_ctt.c)
 
 install(PROGRAMS $<TARGET_FILE:server_ctt>

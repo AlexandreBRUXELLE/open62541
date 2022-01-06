@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/elkmir/work/open62541/examples/nodeset/server_nodeset.c
+open62541/plugin/log_stdout.h
+-
+open62541/server.h
+-
+open62541/server_config_default.h
+-
+open62541/example_nodeids.h
+/home/elkmir/work/open62541/examples/nodeset/open62541/example_nodeids.h
+open62541/namespace_example_generated.h
+/home/elkmir/work/open62541/examples/nodeset/open62541/namespace_example_generated.h
+signal.h
+-
+stdlib.h
+-
+
+/home/elkmir/work/open62541/examples/src_generated/open62541/namespace_example_generated.c
+namespace_example_generated.h
+/home/elkmir/work/open62541/examples/src_generated/open62541/namespace_example_generated.h
+
+/home/elkmir/work/open62541/examples/src_generated/open62541/namespace_example_generated.h
+open62541.h
+/home/elkmir/work/open62541/examples/src_generated/open62541/open62541.h
+open62541/server.h
+-
+
+src_generated/open62541/example_nodeids.h
+
+src_generated/open62541/namespace_example_generated.h
+open62541.h
+src_generated/open62541/open62541.h
+open62541/server.h
+-
+

@@ -1,0 +1,1 @@
+/usr/bin/cc    CMakeFiles/server.dir/server.c.o  -o bin/examples/server  /usr/local/lib/libopen62541.a -lm -lrt 

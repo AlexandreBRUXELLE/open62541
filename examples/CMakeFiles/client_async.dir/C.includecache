@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/elkmir/work/open62541/examples/client_async.c
+open62541/client_config_default.h
+-
+open62541/client_highlevel_async.h
+-
+open62541/client_subscriptions.h
+-
+open62541/plugin/log_stdout.h
+-
+open62541/server_config_default.h
+-
+stdlib.h
+-
+
