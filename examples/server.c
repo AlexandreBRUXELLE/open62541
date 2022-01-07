@@ -76,6 +76,7 @@ manuallyDefineBat40(UA_Server *server) {
     UA_Boolean alarmValue = true;
     UA_Variant_setScalar(&alarmAttr.value, &alarmValue, &UA_TYPES[UA_TYPES_BOOLEAN]);
     alarmAttr.displayName = UA_LOCALIZEDTEXT("en-US", "AlarmeIncendie");
+    alarmAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
                               UA_QUALIFIEDNAME(1, "AlarmeIncendie"),
@@ -85,6 +86,7 @@ manuallyDefineBat40(UA_Server *server) {
     UA_Boolean automatBit2VieValue = true;
     UA_Variant_setScalar(&automatBit2VieAttr.value, &automatBit2VieValue, &UA_TYPES[UA_TYPES_BOOLEAN]);
     automatBit2VieAttr.displayName = UA_LOCALIZEDTEXT("en-US", "AutomateBit2Vie");
+    automatBit2VieAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
                               UA_QUALIFIEDNAME(1, "AutomateBit2Vie"),
@@ -94,6 +96,7 @@ manuallyDefineBat40(UA_Server *server) {
     UA_Int32 etatInstallationValue = 0;
     UA_Variant_setScalar(&etatInstallationAttr.value, &etatInstallationValue, &UA_TYPES[UA_TYPES_INT32]);
     etatInstallationAttr.displayName = UA_LOCALIZEDTEXT("en-US", "EtatInstallation");
+    etatInstallationAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
                               UA_QUALIFIEDNAME(1, "EtatInstallation"),
@@ -103,6 +106,7 @@ manuallyDefineBat40(UA_Server *server) {
     UA_Boolean modeVidageValue = true;
     UA_Variant_setScalar(&automatBit2VieAttr.value, &modeVidageValue, &UA_TYPES[UA_TYPES_BOOLEAN]);
     automatBit2VieAttr.displayName = UA_LOCALIZEDTEXT("en-US", "ModeVidage");
+    automatBit2VieAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
                               UA_QUALIFIEDNAME(1, "ModeVidage"),
@@ -167,8 +171,12 @@ manuallyDefineBat40(UA_Server *server) {
  * to an object that representes the `mandatory` modelling rule. */
 
 /* predefined identifier for later use */
-UA_NodeId gareTypeId = {1, UA_NODEIDTYPE_NUMERIC, {1001}};
-UA_NodeId missionDataTypeId = {1, UA_NODEIDTYPE_NUMERIC, {1002}};
+UA_NodeId gareTypeId = {1, UA_NODEIDTYPE_NUMERIC, {1005}};
+UA_NodeId missionDataTypeId = {1, UA_NODEIDTYPE_NUMERIC, {1006}};
+UA_NodeId garesTypeId = {1, UA_NODEIDTYPE_NUMERIC, {1003}};
+UA_NodeId missionTypeId = {1, UA_NODEIDTYPE_NUMERIC, {1004}};
+UA_NodeId zonesTypeId = {1, UA_NODEIDTYPE_NUMERIC, {1001}};
+UA_NodeId zoneTypeId = {1, UA_NODEIDTYPE_NUMERIC, {1002}};
 
 static void
 defineObjectTypesGare(UA_Server *server) {
@@ -184,6 +192,7 @@ defineObjectTypesGare(UA_Server *server) {
 
     UA_VariableAttributes contenuAttr = UA_VariableAttributes_default;
     contenuAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Contenu");
+    contenuAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_NodeId contenuId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -197,6 +206,7 @@ defineObjectTypesGare(UA_Server *server) {
 
     UA_VariableAttributes etatAttr = UA_VariableAttributes_default;
     etatAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Etat");
+    etatAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_NodeId etatId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -210,6 +220,7 @@ defineObjectTypesGare(UA_Server *server) {
 
     UA_VariableAttributes etatBalAttr = UA_VariableAttributes_default;
     etatBalAttr.displayName = UA_LOCALIZEDTEXT("en-US", "EtatBalancelle");
+    etatBalAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_NodeId etatBalId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -222,6 +233,7 @@ defineObjectTypesGare(UA_Server *server) {
     
     UA_VariableAttributes messageAttr = UA_VariableAttributes_default;
     messageAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Message");
+    messageAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_NodeId messageId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -232,16 +244,39 @@ defineObjectTypesGare(UA_Server *server) {
                            UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
                            UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
   
-   
-    /* Define the object type for "Gare" */
+   /* Define the object type for "Gare" */
     UA_ObjectTypeAttributes gtAttr = UA_ObjectTypeAttributes_default;
     gtAttr.displayName = UA_LOCALIZEDTEXT("en-US", "GareType");
     UA_Server_addObjectTypeNode(server, gareTypeId,
                                 gareId, UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
                                 UA_QUALIFIEDNAME(1, "GareType"), gtAttr,
                                 NULL, NULL);
+
     
 }
+
+static void
+defineObjectTypesGares(UA_Server *server) {
+    /* Define the object type for "Gares" */
+    UA_NodeId garesId; /* get the nodeid assigned by the server */
+    UA_ObjectTypeAttributes garesTypeAttr = UA_ObjectTypeAttributes_default;
+    garesTypeAttr.displayName = UA_LOCALIZEDTEXT("en-US", "GaresType");
+    UA_Server_addObjectTypeNode(server, UA_NODEID_NULL,
+                                UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
+                                UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
+                                UA_QUALIFIEDNAME(1, "GaresType"), garesTypeAttr,
+                                NULL, &garesId);
+    
+       // Define the object type for "Gare" 
+    UA_ObjectTypeAttributes gtAttr = UA_ObjectTypeAttributes_default;
+    gtAttr.displayName = UA_LOCALIZEDTEXT("en-US", "GaresType");
+    UA_Server_addObjectTypeNode(server, garesTypeId,
+                                garesId, UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
+                                UA_QUALIFIEDNAME(1, "GaresType"), gtAttr,
+                                NULL, NULL);
+    
+}
+
 
 static void
 defineObjectTypesMissionData(UA_Server *server) {
@@ -257,6 +292,7 @@ defineObjectTypesMissionData(UA_Server *server) {
 
     UA_VariableAttributes ackPanoAttr = UA_VariableAttributes_default;
     ackPanoAttr.displayName = UA_LOCALIZEDTEXT("en-US", "AckPano");
+    ackPanoAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_NodeId ackPanoId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -270,6 +306,7 @@ defineObjectTypesMissionData(UA_Server *server) {
 
     UA_VariableAttributes indiceGareAttr = UA_VariableAttributes_default;
     indiceGareAttr.displayName = UA_LOCALIZEDTEXT("en-US", "IndiceGare");
+    indiceGareAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_NodeId indiceGareId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -283,6 +320,7 @@ defineObjectTypesMissionData(UA_Server *server) {
 
     UA_VariableAttributes requeteAttr = UA_VariableAttributes_default;
     requeteAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Requete");
+    requeteAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_NodeId requeteId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -295,6 +333,7 @@ defineObjectTypesMissionData(UA_Server *server) {
     
     UA_VariableAttributes typeAttr = UA_VariableAttributes_default;
     typeAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Type");
+    typeAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_NodeId typeId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -317,6 +356,77 @@ defineObjectTypesMissionData(UA_Server *server) {
 }
 
 
+static void
+defineObjectTypesMission(UA_Server *server) {
+    /* Define the object type for "Mission" */
+    UA_NodeId missionId; /* get the nodeid assigned by the server */
+    UA_ObjectTypeAttributes missionTypeAttr = UA_ObjectTypeAttributes_default;
+    missionTypeAttr.displayName = UA_LOCALIZEDTEXT("en-US", "MissionType");
+    UA_Server_addObjectTypeNode(server, UA_NODEID_NULL,
+                                UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
+                                UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
+                                UA_QUALIFIEDNAME(1, "MissionType"), missionTypeAttr,
+                                NULL, &missionId);
+
+    
+       // Define the object type for "Gare" 
+    UA_ObjectTypeAttributes gtAttr = UA_ObjectTypeAttributes_default;
+    gtAttr.displayName = UA_LOCALIZEDTEXT("en-US", "MissionType");
+    UA_Server_addObjectTypeNode(server, missionTypeId,
+                                missionId, UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
+                                UA_QUALIFIEDNAME(1, "MissionType"), gtAttr,
+                                NULL, NULL);
+    
+}
+
+// Zones : liste de plusieurs zones
+static void
+defineObjectTypesZones(UA_Server *server) {
+    /* Define the object type for "Zones" */
+    UA_NodeId zonesId; /* get the nodeid assigned by the server */
+    UA_ObjectTypeAttributes zonesTypeAttr = UA_ObjectTypeAttributes_default;
+    zonesTypeAttr.displayName = UA_LOCALIZEDTEXT("en-US", "ZonesType");
+    UA_Server_addObjectTypeNode(server, UA_NODEID_NULL,
+                                UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
+                                UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
+                                UA_QUALIFIEDNAME(1, "ZonesType"), zonesTypeAttr,
+                                NULL, &zonesId);
+
+    
+    // Define the object type for "Zones" 
+    UA_ObjectTypeAttributes zstAttr = UA_ObjectTypeAttributes_default;
+    zstAttr.displayName = UA_LOCALIZEDTEXT("en-US", "ZonesType");
+    UA_Server_addObjectTypeNode(server, zonesTypeId,
+                                zonesId, UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
+                                UA_QUALIFIEDNAME(1, "ZonesType"), zstAttr,
+                                NULL, NULL);
+    
+}
+
+// Zone : ie. Z1 etc..
+static void
+defineObjectTypesZone(UA_Server *server) {
+    /* Define the object type for "Zone" */
+    UA_NodeId zoneId; /* get the nodeid assigned by the server */
+    UA_ObjectTypeAttributes zoneTypeAttr = UA_ObjectTypeAttributes_default;
+    zoneTypeAttr.displayName = UA_LOCALIZEDTEXT("en-US", "ZoneType");
+    UA_Server_addObjectTypeNode(server, UA_NODEID_NULL,
+                                UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
+                                UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
+                                UA_QUALIFIEDNAME(1, "ZoneType"), zoneTypeAttr,
+                                NULL, &zoneId);
+
+    
+    // Define the object type for "Zone" 
+    UA_ObjectTypeAttributes ztAttr = UA_ObjectTypeAttributes_default;
+    ztAttr.displayName = UA_LOCALIZEDTEXT("en-US", "ZoneType");
+    UA_Server_addObjectTypeNode(server, zoneTypeId,
+                                zoneId, UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
+                                UA_QUALIFIEDNAME(1, "ZoneType"), ztAttr,
+                                NULL, NULL);
+    
+}
+
 /**
  * Now we add the derived ObjectType for the pump that inherits from the device
  * object type. The resulting object contains all mandatory child variables.
@@ -338,6 +448,22 @@ addGareObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert) {
                             oAttr, NULL, NULL);
 }
 
+static UA_NodeId
+addGaresObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert) {
+    UA_NodeId refGaresTypeId;
+    UA_ObjectAttributes oAttr = UA_ObjectAttributes_default;
+    oAttr.displayName = UA_LOCALIZEDTEXT("en-US", name);
+    UA_Server_addObjectNode(server, UA_NODEID_NULL,
+                            idToInsert,//UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
+                            UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
+                            UA_QUALIFIEDNAME(1, name),
+                            garesTypeId, /* this refers to the object type
+                                           identifier */
+                            oAttr, NULL, &refGaresTypeId);
+    return refGaresTypeId;
+}
+
+
 static void
 addMissionDataObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert) {
     UA_ObjectAttributes oAttr = UA_ObjectAttributes_default;
@@ -351,6 +477,50 @@ addMissionDataObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert
                             oAttr, NULL, NULL);
 }
 
+static UA_NodeId
+addMissionObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert) {
+    UA_NodeId refMissionTypeId;
+    UA_ObjectAttributes oAttr = UA_ObjectAttributes_default;
+    oAttr.displayName = UA_LOCALIZEDTEXT("en-US", name);
+    UA_Server_addObjectNode(server, UA_NODEID_NULL,
+                            idToInsert,//UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
+                            UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
+                            UA_QUALIFIEDNAME(1, name),
+                            missionTypeId, /* this refers to the object type
+                                           identifier */
+                            oAttr, NULL, &refMissionTypeId);
+    return refMissionTypeId;
+}
+
+static UA_NodeId
+addZonesObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert) {
+    UA_NodeId refZonesTypeId;
+    UA_ObjectAttributes oAttr = UA_ObjectAttributes_default;
+    oAttr.displayName = UA_LOCALIZEDTEXT("en-US", name);
+    UA_Server_addObjectNode(server, UA_NODEID_NULL,
+                            idToInsert,//UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
+                            UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
+                            UA_QUALIFIEDNAME(1, name),
+                            zonesTypeId, /* this refers to the object type
+                                           identifier */
+                            oAttr, NULL, &refZonesTypeId);
+    return refZonesTypeId;
+}
+
+static UA_NodeId
+addZoneObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert) {
+    UA_NodeId refZoneTypeId;
+    UA_ObjectAttributes oAttr = UA_ObjectAttributes_default;
+    oAttr.displayName = UA_LOCALIZEDTEXT("en-US", name);
+    UA_Server_addObjectNode(server, UA_NODEID_NULL,
+                            idToInsert,//UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
+                            UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
+                            UA_QUALIFIEDNAME(1, name),
+                            zoneTypeId, /* this refers to the object type
+                                           identifier */
+                            oAttr, NULL, &refZoneTypeId);
+    return refZoneTypeId;
+}
 
 /**
  * Often we want to run a constructor function on a new object. This is
@@ -449,6 +619,8 @@ gareTypeConstructor(UA_Server *server,
 
     return UA_STATUSCODE_GOOD;
 }
+
+
 
 static UA_StatusCode
 missionDataTypeConstructor(UA_Server *server,
@@ -549,6 +721,8 @@ addGareTypeConstructor(UA_Server *server) {
     UA_Server_setNodeTypeLifecycle(server, gareTypeId, lifecycle);
 }
 
+
+
 static void
 addMissionDataTypeConstructor(UA_Server *server) {
     UA_NodeTypeLifecycle lifecycle;
@@ -581,20 +755,33 @@ int main(void) {
     UA_Server *server = UA_Server_new();
     UA_ServerConfig_setDefault(UA_Server_getConfig(server));
 
-    UA_NodeId batId =  manuallyDefineBat40(server);
-    defineObjectTypesGare(server);
-    addGareTypeConstructor(server);
-    addGareObjectInstance(server, "G1", batId);
-    addGareObjectInstance(server, "G2", batId);
-    addGareObjectInstance(server, "G3", batId);
-    addGareObjectInstance(server, "G4", batId);
+    // batiment_40
+    UA_NodeId batId =  manuallyDefineBat40(server);    
+    // |- Zones    
+    defineObjectTypesZones(server);
+    UA_NodeId zonesId = addZonesObjectInstance(server, "Zones", batId);    
+    //      |- Zone
+    defineObjectTypesZone(server);
+    UA_NodeId z1Id = addZoneObjectInstance(server, "Z1", zonesId);    
 
+    //          |- Gares
+    defineObjectTypesGares(server);
+    UA_NodeId garesId = addGaresObjectInstance(server, "Gares", z1Id);    
+    //              |- Gare        
+    defineObjectTypesGare(server);    
+    addGareTypeConstructor(server);
+    addGareObjectInstance(server, "G1", garesId);
+    addGareObjectInstance(server, "G2", garesId);
+    addGareObjectInstance(server, "G3", garesId);
+    addGareObjectInstance(server, "G4", garesId);
+    //          |- Mission
+    defineObjectTypesMission(server);
+    UA_NodeId missionId = addMissionObjectInstance(server, "Mission", z1Id);
+    //              |- MissionData        
     defineObjectTypesMissionData(server);
     addMissionDataTypeConstructor(server);
-    addMissionDataObjectInstance(server, "MD1", batId);
-    addMissionDataObjectInstance(server, "MD2", batId);
-    addMissionDataObjectInstance(server, "MD3", batId);
-    addMissionDataObjectInstance(server, "MD4", batId);
+    addMissionDataObjectInstance(server, "MissionData", missionId);    
+    
     
     UA_StatusCode retval = UA_Server_run(server, &running);
 
