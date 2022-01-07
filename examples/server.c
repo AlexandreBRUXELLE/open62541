@@ -553,6 +553,7 @@ gareTypeConstructor(UA_Server *server,
 
     UA_BrowsePathResult bpr =
         UA_Server_translateBrowsePathToNodeIds(server, &bp);
+        bpr = UA_Server_translateBrowsePathToNodeIds(server, &bp);
     if(bpr.statusCode != UA_STATUSCODE_GOOD ||
        bpr.targetsSize < 1)
         return bpr.statusCode;
@@ -570,6 +571,7 @@ gareTypeConstructor(UA_Server *server,
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
     bp.relativePath.elements = &rpe;
+    bpr = UA_Server_translateBrowsePathToNodeIds(server, &bp);
     if(bpr.statusCode != UA_STATUSCODE_GOOD ||
        bpr.targetsSize < 1)
         return bpr.statusCode;
@@ -587,6 +589,7 @@ gareTypeConstructor(UA_Server *server,
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
     bp.relativePath.elements = &rpe;
+    bpr = UA_Server_translateBrowsePathToNodeIds(server, &bp);
     if(bpr.statusCode != UA_STATUSCODE_GOOD ||
        bpr.targetsSize < 1)
         return bpr.statusCode;
@@ -605,6 +608,7 @@ gareTypeConstructor(UA_Server *server,
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
     bp.relativePath.elements = &rpe;
+    bpr = UA_Server_translateBrowsePathToNodeIds(server, &bp);
     if(bpr.statusCode != UA_STATUSCODE_GOOD ||
        bpr.targetsSize < 1)
         return bpr.statusCode;
@@ -640,6 +644,7 @@ missionDataTypeConstructor(UA_Server *server,
     UA_BrowsePath bp;
     UA_BrowsePath_init(&bp);
     bp.startingNode = *nodeId;
+    UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_USERLAND, "%i", bp.startingNode.identifier.numeric);
     bp.relativePath.elementsSize = 1;
     bp.relativePath.elements = &rpe;
 
@@ -650,7 +655,7 @@ missionDataTypeConstructor(UA_Server *server,
         return bpr.statusCode;
 
     /* Set the AckPano value */
-    UA_Boolean ackPano = 0;
+    UA_Boolean ackPano = true;
     UA_Variant ackPanoValue;
     UA_Variant_setScalar(&ackPanoValue, &ackPano, &UA_TYPES[UA_TYPES_BOOLEAN]);
     UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, ackPanoValue);
@@ -662,6 +667,7 @@ missionDataTypeConstructor(UA_Server *server,
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
     bp.relativePath.elements = &rpe;
+    bpr = UA_Server_translateBrowsePathToNodeIds(server, &bp);
     if(bpr.statusCode != UA_STATUSCODE_GOOD ||
        bpr.targetsSize < 1)
         return bpr.statusCode;
@@ -679,12 +685,13 @@ missionDataTypeConstructor(UA_Server *server,
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
     bp.relativePath.elements = &rpe;
+    bpr = UA_Server_translateBrowsePathToNodeIds(server, &bp);
     if(bpr.statusCode != UA_STATUSCODE_GOOD ||
        bpr.targetsSize < 1)
         return bpr.statusCode;
         
     /* Set the requete value */
-    UA_Boolean requete = 0;
+    UA_Boolean requete = false;
     UA_Variant requeteValue;
     UA_Variant_setScalar(&requeteValue, &requete, &UA_TYPES[UA_TYPES_BOOLEAN]);
     UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, requeteValue);
@@ -697,6 +704,7 @@ missionDataTypeConstructor(UA_Server *server,
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
     bp.relativePath.elements = &rpe;
+    bpr = UA_Server_translateBrowsePathToNodeIds(server, &bp);
     if(bpr.statusCode != UA_STATUSCODE_GOOD ||
        bpr.targetsSize < 1)
         return bpr.statusCode;
@@ -740,6 +748,35 @@ addZoneTypeConstructor(UA_Server *server) {
 }
 */
 
+static void 
+garesFactory(UA_Server* server, int nbGares, UA_NodeId parentNodeId){
+    
+    for(int ii = 1 ; ii<=nbGares ; ii++){
+         char gareName[5] = "";
+         snprintf(gareName, sizeof(gareName), "G%i", ii);
+         addGareObjectInstance(server, gareName, parentNodeId);
+    }
+    
+}
+
+static void 
+zoneFactory(UA_Server* server, char* zoneName, int nbGares, UA_NodeId parentNodeId){
+    
+    UA_NodeId z1Id = addZoneObjectInstance(server, zoneName, parentNodeId);    
+    //          |- Gares
+    UA_NodeId garesId = addGaresObjectInstance(server, "Gares", z1Id);    
+    //              |- Gare        
+    addGareTypeConstructor(server);
+    garesFactory(server,nbGares, garesId);
+    //          |- Mission
+    UA_NodeId missionId = addMissionObjectInstance(server, "Mission", z1Id);
+    //              |- MissionData        
+    addMissionDataTypeConstructor(server);
+    addMissionDataObjectInstance(server, "MissionData", missionId);  
+    
+}
+
+
 /** It follows the main server code, making use of the above definitions. */
 
 static volatile UA_Boolean running = true;
@@ -762,25 +799,18 @@ int main(void) {
     UA_NodeId zonesId = addZonesObjectInstance(server, "Zones", batId);    
     //      |- Zone
     defineObjectTypesZone(server);
-    UA_NodeId z1Id = addZoneObjectInstance(server, "Z1", zonesId);    
-
     //          |- Gares
-    defineObjectTypesGares(server);
-    UA_NodeId garesId = addGaresObjectInstance(server, "Gares", z1Id);    
+    defineObjectTypesGares(server);  
     //              |- Gare        
     defineObjectTypesGare(server);    
-    addGareTypeConstructor(server);
-    addGareObjectInstance(server, "G1", garesId);
-    addGareObjectInstance(server, "G2", garesId);
-    addGareObjectInstance(server, "G3", garesId);
-    addGareObjectInstance(server, "G4", garesId);
     //          |- Mission
     defineObjectTypesMission(server);
-    UA_NodeId missionId = addMissionObjectInstance(server, "Mission", z1Id);
     //              |- MissionData        
     defineObjectTypesMissionData(server);
-    addMissionDataTypeConstructor(server);
-    addMissionDataObjectInstance(server, "MissionData", missionId);    
+
+    zoneFactory(server, "Z1", 6, zonesId);
+    zoneFactory(server, "Z21", 16, zonesId);
+    zoneFactory(server, "Z22", 64, zonesId);
     
     
     UA_StatusCode retval = UA_Server_run(server, &running);
