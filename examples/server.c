@@ -69,7 +69,7 @@ manuallyDefineBat40(UA_Server *server) {
     UA_Server_addObjectNode(server, UA_NODEID_NULL,
                             UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
                             UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
-                            UA_QUALIFIEDNAME(1, "Batiment_40"), UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
+                            UA_QUALIFIEDNAME(0, "Batiment_40"), UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
                             oAttr, NULL, &batId);
 
     UA_VariableAttributes alarmAttr = UA_VariableAttributes_default;
@@ -79,7 +79,7 @@ manuallyDefineBat40(UA_Server *server) {
     alarmAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(1, "AlarmeIncendie"),
+                              UA_QUALIFIEDNAME(0, "AlarmeIncendie"),
                               UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), alarmAttr, NULL, NULL);
 
     UA_VariableAttributes automatBit2VieAttr = UA_VariableAttributes_default;
@@ -89,7 +89,7 @@ manuallyDefineBat40(UA_Server *server) {
     automatBit2VieAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(1, "AutomateBit2Vie"),
+                              UA_QUALIFIEDNAME(0, "AutomateBit2Vie"),
                               UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), automatBit2VieAttr, NULL, NULL);
 
     UA_VariableAttributes etatInstallationAttr = UA_VariableAttributes_default;
@@ -99,18 +99,29 @@ manuallyDefineBat40(UA_Server *server) {
     etatInstallationAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(1, "EtatInstallation"),
+                              UA_QUALIFIEDNAME(0, "EtatInstallation"),
                               UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), etatInstallationAttr, NULL, NULL);
 
     UA_VariableAttributes modeVidageAttr = UA_VariableAttributes_default;
-    UA_Boolean modeVidageValue = true;
-    UA_Variant_setScalar(&automatBit2VieAttr.value, &modeVidageValue, &UA_TYPES[UA_TYPES_BOOLEAN]);
-    automatBit2VieAttr.displayName = UA_LOCALIZEDTEXT("en-US", "ModeVidage");
-    automatBit2VieAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    UA_Boolean modeVidageValue = false;
+    UA_Variant_setScalar(&modeVidageAttr.value, &modeVidageValue, &UA_TYPES[UA_TYPES_BOOLEAN]);
+    modeVidageAttr.displayName = UA_LOCALIZEDTEXT("en-US", "ModeVidage");
+    modeVidageAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(1, "ModeVidage"),
-                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), automatBit2VieAttr, NULL, NULL);
+                              UA_QUALIFIEDNAME(0, "ModeVidage"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), modeVidageAttr, NULL, NULL);
+    
+    UA_VariableAttributes panorameBit2VieAttr = UA_VariableAttributes_default;
+    UA_Boolean panorameBit2VieValue = true;
+    UA_Variant_setScalar(&panorameBit2VieAttr.value, &panorameBit2VieValue, &UA_TYPES[UA_TYPES_BOOLEAN]);
+    panorameBit2VieAttr.displayName = UA_LOCALIZEDTEXT("en-US", "PanoramaBit2Vie");
+    panorameBit2VieAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "PanoramaBit2Vie"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), panorameBit2VieAttr, NULL, NULL);
+    
     return batId;
 }
 
@@ -187,7 +198,7 @@ defineObjectTypesGare(UA_Server *server) {
     UA_Server_addObjectTypeNode(server, UA_NODEID_NULL,
                                 UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
                                 UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
-                                UA_QUALIFIEDNAME(1, "GareType"), gareTypeAttr,
+                                UA_QUALIFIEDNAME(0, "GareType"), gareTypeAttr,
                                 NULL, &gareId);
 
     UA_VariableAttributes contenuAttr = UA_VariableAttributes_default;
@@ -196,7 +207,7 @@ defineObjectTypesGare(UA_Server *server) {
     UA_NodeId contenuId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(1, "Contenu"),
+                              UA_QUALIFIEDNAME(0, "Contenu"),
                               UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), contenuAttr, NULL, &contenuId);
     /* Make the contenu mandatory */
     UA_Server_addReference(server, contenuId,
@@ -210,7 +221,7 @@ defineObjectTypesGare(UA_Server *server) {
     UA_NodeId etatId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(1, "Etat"),
+                              UA_QUALIFIEDNAME(0, "Etat"),
                               UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), etatAttr, NULL, &etatId);
     /* Make the etat mandatory */
     UA_Server_addReference(server, etatId,
@@ -224,7 +235,7 @@ defineObjectTypesGare(UA_Server *server) {
     UA_NodeId etatBalId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(1, "EtatBalancelle"),
+                              UA_QUALIFIEDNAME(0, "EtatBalancelle"),
                               UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), etatBalAttr, NULL, &etatBalId);
     /* Make the etat mandatory */
     UA_Server_addReference(server, etatBalId,
@@ -237,7 +248,7 @@ defineObjectTypesGare(UA_Server *server) {
     UA_NodeId messageId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(1, "Message"),
+                              UA_QUALIFIEDNAME(0, "Message"),
                               UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), messageAttr, NULL, &messageId);
     /* Make the etat mandatory */
    UA_Server_addReference(server, messageId,
@@ -249,7 +260,7 @@ defineObjectTypesGare(UA_Server *server) {
     gtAttr.displayName = UA_LOCALIZEDTEXT("en-US", "GareType");
     UA_Server_addObjectTypeNode(server, gareTypeId,
                                 gareId, UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
-                                UA_QUALIFIEDNAME(1, "GareType"), gtAttr,
+                                UA_QUALIFIEDNAME(0, "GareType"), gtAttr,
                                 NULL, NULL);
 
     
@@ -264,7 +275,7 @@ defineObjectTypesGares(UA_Server *server) {
     UA_Server_addObjectTypeNode(server, UA_NODEID_NULL,
                                 UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
                                 UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
-                                UA_QUALIFIEDNAME(1, "GaresType"), garesTypeAttr,
+                                UA_QUALIFIEDNAME(0, "GaresType"), garesTypeAttr,
                                 NULL, &garesId);
     
        // Define the object type for "Gare" 
@@ -272,7 +283,7 @@ defineObjectTypesGares(UA_Server *server) {
     gtAttr.displayName = UA_LOCALIZEDTEXT("en-US", "GaresType");
     UA_Server_addObjectTypeNode(server, garesTypeId,
                                 garesId, UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
-                                UA_QUALIFIEDNAME(1, "GaresType"), gtAttr,
+                                UA_QUALIFIEDNAME(0, "GaresType"), gtAttr,
                                 NULL, NULL);
     
 }
@@ -287,7 +298,7 @@ defineObjectTypesMissionData(UA_Server *server) {
     UA_Server_addObjectTypeNode(server, UA_NODEID_NULL,
                                 UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
                                 UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
-                                UA_QUALIFIEDNAME(1, "MissionData"), missionDataTypeAttr,
+                                UA_QUALIFIEDNAME(0, "MissionData"), missionDataTypeAttr,
                                 NULL, &missionDataId);
 
     UA_VariableAttributes ackPanoAttr = UA_VariableAttributes_default;
@@ -296,7 +307,7 @@ defineObjectTypesMissionData(UA_Server *server) {
     UA_NodeId ackPanoId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(1, "AckPano"),
+                              UA_QUALIFIEDNAME(0, "AckPano"),
                               UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), ackPanoAttr, NULL, &ackPanoId);
     /* Make the contenu mandatory */
     UA_Server_addReference(server, ackPanoId,
@@ -310,7 +321,7 @@ defineObjectTypesMissionData(UA_Server *server) {
     UA_NodeId indiceGareId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(1, "IndiceGare"),
+                              UA_QUALIFIEDNAME(0, "IndiceGare"),
                               UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), indiceGareAttr, NULL, &indiceGareId);
     /* Make the contenu mandatory */
     UA_Server_addReference(server, indiceGareId,
@@ -324,7 +335,7 @@ defineObjectTypesMissionData(UA_Server *server) {
     UA_NodeId requeteId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(1, "Requete"),
+                              UA_QUALIFIEDNAME(0, "Requete"),
                               UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), requeteAttr, NULL, &requeteId);
     /* Make the contenu mandatory */
     UA_Server_addReference(server, requeteId,
@@ -337,7 +348,7 @@ defineObjectTypesMissionData(UA_Server *server) {
     UA_NodeId typeId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(1, "Type"),
+                              UA_QUALIFIEDNAME(0, "Type"),
                               UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), typeAttr, NULL, &typeId);
     /* Make the contenu mandatory */
     UA_Server_addReference(server, typeId,
@@ -350,7 +361,7 @@ defineObjectTypesMissionData(UA_Server *server) {
     mdtAttr.displayName = UA_LOCALIZEDTEXT("en-US", "MissionDataType");
     UA_Server_addObjectTypeNode(server, missionDataTypeId,
                                 missionDataId, UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
-                                UA_QUALIFIEDNAME(1, "MissionDataType"), mdtAttr,
+                                UA_QUALIFIEDNAME(0, "MissionDataType"), mdtAttr,
                                 NULL, NULL);
     
 }
@@ -365,7 +376,7 @@ defineObjectTypesMission(UA_Server *server) {
     UA_Server_addObjectTypeNode(server, UA_NODEID_NULL,
                                 UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
                                 UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
-                                UA_QUALIFIEDNAME(1, "MissionType"), missionTypeAttr,
+                                UA_QUALIFIEDNAME(0, "MissionType"), missionTypeAttr,
                                 NULL, &missionId);
 
     
@@ -374,7 +385,7 @@ defineObjectTypesMission(UA_Server *server) {
     gtAttr.displayName = UA_LOCALIZEDTEXT("en-US", "MissionType");
     UA_Server_addObjectTypeNode(server, missionTypeId,
                                 missionId, UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
-                                UA_QUALIFIEDNAME(1, "MissionType"), gtAttr,
+                                UA_QUALIFIEDNAME(0, "MissionType"), gtAttr,
                                 NULL, NULL);
     
 }
@@ -389,7 +400,7 @@ defineObjectTypesZones(UA_Server *server) {
     UA_Server_addObjectTypeNode(server, UA_NODEID_NULL,
                                 UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
                                 UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
-                                UA_QUALIFIEDNAME(1, "ZonesType"), zonesTypeAttr,
+                                UA_QUALIFIEDNAME(0, "ZonesType"), zonesTypeAttr,
                                 NULL, &zonesId);
 
     
@@ -398,7 +409,7 @@ defineObjectTypesZones(UA_Server *server) {
     zstAttr.displayName = UA_LOCALIZEDTEXT("en-US", "ZonesType");
     UA_Server_addObjectTypeNode(server, zonesTypeId,
                                 zonesId, UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
-                                UA_QUALIFIEDNAME(1, "ZonesType"), zstAttr,
+                                UA_QUALIFIEDNAME(0, "ZonesType"), zstAttr,
                                 NULL, NULL);
     
 }
@@ -413,7 +424,7 @@ defineObjectTypesZone(UA_Server *server) {
     UA_Server_addObjectTypeNode(server, UA_NODEID_NULL,
                                 UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
                                 UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
-                                UA_QUALIFIEDNAME(1, "ZoneType"), zoneTypeAttr,
+                                UA_QUALIFIEDNAME(0, "ZoneType"), zoneTypeAttr,
                                 NULL, &zoneId);
 
     
@@ -422,7 +433,7 @@ defineObjectTypesZone(UA_Server *server) {
     ztAttr.displayName = UA_LOCALIZEDTEXT("en-US", "ZoneType");
     UA_Server_addObjectTypeNode(server, zoneTypeId,
                                 zoneId, UA_NODEID_NUMERIC(0, UA_NS0ID_HASSUBTYPE),
-                                UA_QUALIFIEDNAME(1, "ZoneType"), ztAttr,
+                                UA_QUALIFIEDNAME(0, "ZoneType"), ztAttr,
                                 NULL, NULL);
     
 }
@@ -442,7 +453,7 @@ addGareObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert) {
     UA_Server_addObjectNode(server, UA_NODEID_NULL,
                             idToInsert,//UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
                             UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
-                            UA_QUALIFIEDNAME(1, name),
+                            UA_QUALIFIEDNAME(0, name),
                             gareTypeId, /* this refers to the object type
                                            identifier */
                             oAttr, NULL, NULL);
@@ -456,7 +467,7 @@ addGaresObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert) {
     UA_Server_addObjectNode(server, UA_NODEID_NULL,
                             idToInsert,//UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
                             UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
-                            UA_QUALIFIEDNAME(1, name),
+                            UA_QUALIFIEDNAME(0, name),
                             garesTypeId, /* this refers to the object type
                                            identifier */
                             oAttr, NULL, &refGaresTypeId);
@@ -471,7 +482,7 @@ addMissionDataObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert
     UA_Server_addObjectNode(server, UA_NODEID_NULL,
                             idToInsert,//UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
                             UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
-                            UA_QUALIFIEDNAME(1, name),
+                            UA_QUALIFIEDNAME(0, name),
                             missionDataTypeId, /* this refers to the object type
                                            identifier */
                             oAttr, NULL, NULL);
@@ -485,7 +496,7 @@ addMissionObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert) {
     UA_Server_addObjectNode(server, UA_NODEID_NULL,
                             idToInsert,//UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
                             UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
-                            UA_QUALIFIEDNAME(1, name),
+                            UA_QUALIFIEDNAME(0, name),
                             missionTypeId, /* this refers to the object type
                                            identifier */
                             oAttr, NULL, &refMissionTypeId);
@@ -500,7 +511,7 @@ addZonesObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert) {
     UA_Server_addObjectNode(server, UA_NODEID_NULL,
                             idToInsert,//UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
                             UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
-                            UA_QUALIFIEDNAME(1, name),
+                            UA_QUALIFIEDNAME(0, name),
                             zonesTypeId, /* this refers to the object type
                                            identifier */
                             oAttr, NULL, &refZonesTypeId);
@@ -515,7 +526,7 @@ addZoneObjectInstance(UA_Server *server, char *name, UA_NodeId idToInsert) {
     UA_Server_addObjectNode(server, UA_NODEID_NULL,
                             idToInsert,//UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
                             UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
-                            UA_QUALIFIEDNAME(1, name),
+                            UA_QUALIFIEDNAME(0, name),
                             zoneTypeId, /* this refers to the object type
                                            identifier */
                             oAttr, NULL, &refZoneTypeId);
@@ -543,7 +554,7 @@ gareTypeConstructor(UA_Server *server,
     rpe.referenceTypeId = UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT);
     rpe.isInverse = false;
     rpe.includeSubtypes = false;
-    rpe.targetName = UA_QUALIFIEDNAME(1, "Contenu");
+    rpe.targetName = UA_QUALIFIEDNAME(0, "Contenu");
 
     UA_BrowsePath bp;
     UA_BrowsePath_init(&bp);
@@ -566,7 +577,7 @@ gareTypeConstructor(UA_Server *server,
     UA_BrowsePathResult_clear(&bpr);
 
     /*find etat*/
-    rpe.targetName = UA_QUALIFIEDNAME(1, "Etat");
+    rpe.targetName = UA_QUALIFIEDNAME(0, "Etat");
     UA_BrowsePath_init(&bp);
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
@@ -584,7 +595,7 @@ gareTypeConstructor(UA_Server *server,
     UA_BrowsePathResult_clear(&bpr);
     
     /*find etat balancelle*/
-    rpe.targetName = UA_QUALIFIEDNAME(1, "EtatBalancelle");
+    rpe.targetName = UA_QUALIFIEDNAME(0, "EtatBalancelle");
     UA_BrowsePath_init(&bp);
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
@@ -603,7 +614,7 @@ gareTypeConstructor(UA_Server *server,
     
     
     /*find message*/
-    rpe.targetName = UA_QUALIFIEDNAME(1, "Message");
+    rpe.targetName = UA_QUALIFIEDNAME(0, "Message");
     UA_BrowsePath_init(&bp);
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
@@ -639,7 +650,7 @@ missionDataTypeConstructor(UA_Server *server,
     rpe.referenceTypeId = UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT);
     rpe.isInverse = false;
     rpe.includeSubtypes = false;
-    rpe.targetName = UA_QUALIFIEDNAME(1, "AckPano");
+    rpe.targetName = UA_QUALIFIEDNAME(0, "AckPano");
 
     UA_BrowsePath bp;
     UA_BrowsePath_init(&bp);
@@ -662,7 +673,7 @@ missionDataTypeConstructor(UA_Server *server,
     UA_BrowsePathResult_clear(&bpr);
 
     /*find Indice Gare*/
-    rpe.targetName = UA_QUALIFIEDNAME(1, "IndiceGare");
+    rpe.targetName = UA_QUALIFIEDNAME(0, "IndiceGare");
     UA_BrowsePath_init(&bp);
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
@@ -680,7 +691,7 @@ missionDataTypeConstructor(UA_Server *server,
     UA_BrowsePathResult_clear(&bpr);
     
     /*find Requete */
-    rpe.targetName = UA_QUALIFIEDNAME(1, "Requete");
+    rpe.targetName = UA_QUALIFIEDNAME(0, "Requete");
     UA_BrowsePath_init(&bp);
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
@@ -699,7 +710,7 @@ missionDataTypeConstructor(UA_Server *server,
     
     
     /*find type*/
-    rpe.targetName = UA_QUALIFIEDNAME(1, "Type");
+    rpe.targetName = UA_QUALIFIEDNAME(0, "Type");
     UA_BrowsePath_init(&bp);
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
