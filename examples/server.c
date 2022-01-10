@@ -204,6 +204,7 @@ defineObjectTypesGare(UA_Server *server) {
     UA_VariableAttributes contenuAttr = UA_VariableAttributes_default;
     contenuAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Contenu");
     contenuAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    contenuAttr.dataType = UA_TYPES[UA_TYPES_INT32].typeId ;
     UA_NodeId contenuId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -218,6 +219,7 @@ defineObjectTypesGare(UA_Server *server) {
     UA_VariableAttributes etatAttr = UA_VariableAttributes_default;
     etatAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Etat");
     etatAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    etatAttr.dataType = UA_TYPES[UA_TYPES_INT32].typeId ;
     UA_NodeId etatId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -232,6 +234,7 @@ defineObjectTypesGare(UA_Server *server) {
     UA_VariableAttributes etatBalAttr = UA_VariableAttributes_default;
     etatBalAttr.displayName = UA_LOCALIZEDTEXT("en-US", "EtatBalancelle");
     etatBalAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    etatBalAttr.dataType = UA_TYPES[UA_TYPES_INT32].typeId ;
     UA_NodeId etatBalId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -245,6 +248,7 @@ defineObjectTypesGare(UA_Server *server) {
     UA_VariableAttributes messageAttr = UA_VariableAttributes_default;
     messageAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Message");
     messageAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    messageAttr.dataType = UA_TYPES[UA_TYPES_STRING].typeId ;
     UA_NodeId messageId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -304,6 +308,7 @@ defineObjectTypesMissionData(UA_Server *server) {
     UA_VariableAttributes ackPanoAttr = UA_VariableAttributes_default;
     ackPanoAttr.displayName = UA_LOCALIZEDTEXT("en-US", "AckPano");
     ackPanoAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    ackPanoAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
     UA_NodeId ackPanoId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -318,6 +323,7 @@ defineObjectTypesMissionData(UA_Server *server) {
     UA_VariableAttributes indiceGareAttr = UA_VariableAttributes_default;
     indiceGareAttr.displayName = UA_LOCALIZEDTEXT("en-US", "IndiceGare");
     indiceGareAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    indiceGareAttr.dataType = UA_TYPES[UA_TYPES_INT32].typeId ;
     UA_NodeId indiceGareId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -332,6 +338,7 @@ defineObjectTypesMissionData(UA_Server *server) {
     UA_VariableAttributes requeteAttr = UA_VariableAttributes_default;
     requeteAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Requete");
     requeteAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    requeteAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
     UA_NodeId requeteId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -345,6 +352,7 @@ defineObjectTypesMissionData(UA_Server *server) {
     UA_VariableAttributes typeAttr = UA_VariableAttributes_default;
     typeAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Type");
     typeAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    typeAttr.dataType = UA_TYPES[UA_TYPES_INT32].typeId ;
     UA_NodeId typeId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
