@@ -231,20 +231,6 @@ defineObjectTypesGare(UA_Server *server) {
                            UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
    
 
-    UA_VariableAttributes etatBalAttr = UA_VariableAttributes_default;
-    etatBalAttr.displayName = UA_LOCALIZEDTEXT("en-US", "EtatBalancelle");
-    etatBalAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
-    etatBalAttr.dataType = UA_TYPES[UA_TYPES_INT32].typeId ;
-    UA_NodeId etatBalId;
-    UA_Server_addVariableNode(server, UA_NODEID_NULL, gareId,
-                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(0, "EtatBalancelle"),
-                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), etatBalAttr, NULL, &etatBalId);
-    /* Make the etat mandatory */
-    UA_Server_addReference(server, etatBalId,
-                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
-                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
-    
     UA_VariableAttributes messageAttr = UA_VariableAttributes_default;
     messageAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Message");
     messageAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
@@ -601,25 +587,7 @@ gareTypeConstructor(UA_Server *server,
     UA_Variant_setScalar(&etatValue, &etat, &UA_TYPES[UA_TYPES_INT32]);
     UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, etatValue);
     UA_BrowsePathResult_clear(&bpr);
-    
-    /*find etat balancelle*/
-    rpe.targetName = UA_QUALIFIEDNAME(0, "EtatBalancelle");
-    UA_BrowsePath_init(&bp);
-    bp.startingNode = *nodeId;
-    bp.relativePath.elementsSize = 1;
-    bp.relativePath.elements = &rpe;
-    bpr = UA_Server_translateBrowsePathToNodeIds(server, &bp);
-    if(bpr.statusCode != UA_STATUSCODE_GOOD ||
-       bpr.targetsSize < 1)
-        return bpr.statusCode;
-        
-    /* Set the etat balancelle value */
-    UA_Int32 etatBal = 0;
-    UA_Variant etatBalValue;
-    UA_Variant_setScalar(&etatBalValue, &etatBal, &UA_TYPES[UA_TYPES_INT32]);
-    UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, etatBalValue);
-    UA_BrowsePathResult_clear(&bpr);
-    
+      
     
     /*find message*/
     rpe.targetName = UA_QUALIFIEDNAME(0, "Message");
