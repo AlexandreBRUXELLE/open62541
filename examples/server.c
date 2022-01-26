@@ -827,9 +827,38 @@ int main(void) {
     //              |- MissionData        
     defineObjectTypesMissionData(server);
 
-    zoneFactory(server, "Z1", 6, zonesId);
-    zoneFactory(server, "Z21", 16, zonesId);
-    zoneFactory(server, "Z22", 64, zonesId);
+zoneFactory(server, "Z1",   6, zonesId);
+zoneFactory(server, "Z2",   4, zonesId);
+zoneFactory(server, "Z3",   4, zonesId);
+zoneFactory(server, "Z4",   4, zonesId);
+zoneFactory(server, "Z5",   4, zonesId);
+zoneFactory(server, "Z6",   4, zonesId);    
+zoneFactory(server, "Z7",   4, zonesId);
+zoneFactory(server, "Z8",   4, zonesId);
+zoneFactory(server, "Z9",   4, zonesId);
+zoneFactory(server, "Z10",   4, zonesId);
+zoneFactory(server, "Z11",   4, zonesId);
+zoneFactory(server, "Z12",   12, zonesId);
+zoneFactory(server, "Z13",   6, zonesId);
+zoneFactory(server, "Z14",   4, zonesId);
+zoneFactory(server, "Z15",   4, zonesId);
+zoneFactory(server, "Z16",   12, zonesId);
+zoneFactory(server, "Z17",   4, zonesId);
+zoneFactory(server, "Z18",   4, zonesId);
+zoneFactory(server, "Z19",   4, zonesId);
+zoneFactory(server, "Z20",   4, zonesId);
+zoneFactory(server, "Z21",   4, zonesId);
+zoneFactory(server, "Z22",   10,zonesId);
+zoneFactory(server, "Z23",   4,zonesId);
+zoneFactory(server, "Z24",   4,zonesId);
+zoneFactory(server, "Z25",   16,zonesId);
+zoneFactory(server, "Z26",   68,zonesId);
+zoneFactory(server, "Z27",   2,zonesId);
+zoneFactory(server, "Z28",   2,zonesId);
+zoneFactory(server, "Z29",   6,zonesId);
+zoneFactory(server, "Z30",   12,zonesId);
+zoneFactory(server, "Z31",   12,zonesId);
+zoneFactory(server, "Z32",   10,zonesId);
     
     
     UA_StatusCode retval = UA_Server_run(server, &running);
@@ -837,3 +866,4 @@ int main(void) {
     UA_Server_delete(server);
     return retval == UA_STATUSCODE_GOOD ? EXIT_SUCCESS : EXIT_FAILURE;
 }
+
