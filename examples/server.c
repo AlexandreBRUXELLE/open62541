@@ -72,16 +72,27 @@ manuallyDefineBat40(UA_Server *server) {
                             UA_QUALIFIEDNAME(0, "Batiment_40"), UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
                             oAttr, NULL, &batId);
 
-    UA_VariableAttributes alarmAttr = UA_VariableAttributes_default;
-    UA_Boolean alarmValue = true;
-    UA_Variant_setScalar(&alarmAttr.value, &alarmValue, &UA_TYPES[UA_TYPES_BOOLEAN]);
-    alarmAttr.displayName = UA_LOCALIZEDTEXT("en-US", "AlarmeIncendie");
-    alarmAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    UA_VariableAttributes panoAlarmAttr = UA_VariableAttributes_default;
+    UA_Boolean panoAlarmValue = true;
+    UA_Variant_setScalar(&panoAlarmAttr.value, &panoAlarmValue, &UA_TYPES[UA_TYPES_BOOLEAN]);
+    panoAlarmAttr.displayName = UA_LOCALIZEDTEXT("en-US", "PanoAlarmeIncendie");
+    panoAlarmAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(0, "AlarmeIncendie"),
-                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), alarmAttr, NULL, NULL);
+                              UA_QUALIFIEDNAME(0, "PanoAlarmeIncendie"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), panoAlarmAttr, NULL, NULL);
 
+    UA_VariableAttributes btnAlarmAttr = UA_VariableAttributes_default;
+    UA_Boolean btnAlarmValue = true;
+    UA_Variant_setScalar(&btnAlarmAttr.value, &btnAlarmValue, &UA_TYPES[UA_TYPES_BOOLEAN]);
+    btnAlarmAttr.displayName = UA_LOCALIZEDTEXT("en-US", "BtnAlarmeIncendie");
+    btnAlarmAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "BtnAlarmeIncendie"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), btnAlarmAttr, NULL, NULL);
+    
+    
     UA_VariableAttributes automatBit2VieAttr = UA_VariableAttributes_default;
     UA_Boolean automatBit2VieValue = true;
     UA_Variant_setScalar(&automatBit2VieAttr.value, &automatBit2VieValue, &UA_TYPES[UA_TYPES_BOOLEAN]);
@@ -381,34 +392,63 @@ defineObjectTypesDbEchAmr(UA_Server *server) {
                                 UA_QUALIFIEDNAME(0, "DbEchAmrType"), dbEchAmrAttr,
                                 NULL, &dbEchAmrId);
     
-    UA_VariableAttributes cycliqueAttr = UA_VariableAttributes_default;
-    cycliqueAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Cyclique");
-    cycliqueAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
-    cycliqueAttr.dataType = UA_TYPES[UA_TYPES_INT16].typeId ;
-    UA_NodeId cycliqueId;
+    UA_VariableAttributes incycliqueAttr = UA_VariableAttributes_default;
+    incycliqueAttr.displayName = UA_LOCALIZEDTEXT("en-US", "InCyclique");
+    incycliqueAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    incycliqueAttr.dataType = UA_TYPES[UA_TYPES_INT16].typeId ;
+    UA_NodeId incycliqueId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(0, "Cyclique"),
-                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), cycliqueAttr, NULL, &cycliqueId);
+                              UA_QUALIFIEDNAME(0, "InCyclique"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), incycliqueAttr, NULL, &incycliqueId);
     /* Make the contenu mandatory */
-    UA_Server_addReference(server, cycliqueId,
+    UA_Server_addReference(server, incycliqueId,
                            UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
                            UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
 
-
-    UA_VariableAttributes vidageAttr = UA_VariableAttributes_default;
-    vidageAttr.displayName = UA_LOCALIZEDTEXT("en-US", "Vidage");
-    vidageAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
-    vidageAttr.dataType = UA_TYPES[UA_TYPES_INT32].typeId ;
-    UA_NodeId vidageId;
+    UA_VariableAttributes outcycliqueAttr = UA_VariableAttributes_default;
+    outcycliqueAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutCyclique");
+    outcycliqueAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outcycliqueAttr.dataType = UA_TYPES[UA_TYPES_INT16].typeId ;
+    UA_NodeId outcycliqueId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
-                              UA_QUALIFIEDNAME(0, "Vidage"),
-                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), vidageAttr, NULL, &vidageId);
-    /* Make the vidage mandatory */
-    UA_Server_addReference(server, vidageId,
+                              UA_QUALIFIEDNAME(0, "OutCyclique"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outcycliqueAttr, NULL, &outcycliqueId);
+    // Make the contenu mandatory 
+    UA_Server_addReference(server, outcycliqueId,
                            UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
                            UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+
+    
+    UA_VariableAttributes invidageAttr = UA_VariableAttributes_default;
+    invidageAttr.displayName = UA_LOCALIZEDTEXT("en-US", "InVidage");
+    invidageAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    invidageAttr.dataType = UA_TYPES[UA_TYPES_INT32].typeId ;
+    UA_NodeId invidageId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "InVidage"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), invidageAttr, NULL, &invidageId);
+    /* Make the vidage mandatory */
+    UA_Server_addReference(server, invidageId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+    
+    UA_VariableAttributes outvidageAttr = UA_VariableAttributes_default;
+    invidageAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutVidage");
+    invidageAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    invidageAttr.dataType = UA_TYPES[UA_TYPES_INT32].typeId ;
+    UA_NodeId outvidageId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutVidage"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outvidageAttr, NULL, &outvidageId);
+    /* Make the vidage mandatory */
+    UA_Server_addReference(server, outvidageId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+    
     
     // Define the object type for "DbEchAmr" 
     UA_ObjectTypeAttributes dbtAttr = UA_ObjectTypeAttributes_default;
@@ -457,7 +497,7 @@ defineObjectTypesMissionData(UA_Server *server) {
     UA_VariableAttributes ackPanoAttr = UA_VariableAttributes_default;
     ackPanoAttr.displayName = UA_LOCALIZEDTEXT("en-US", "AckPano");
     ackPanoAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
-    ackPanoAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
+    ackPanoAttr.dataType = UA_TYPES[UA_TYPES_INT32].typeId ;
     UA_NodeId ackPanoId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, missionDataId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -852,7 +892,7 @@ dbechAmrTypeConstructor(UA_Server *server,
     rpe.referenceTypeId = UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT);
     rpe.isInverse = false;
     rpe.includeSubtypes = false;
-    rpe.targetName = UA_QUALIFIEDNAME(0, "Cyclique");
+    rpe.targetName = UA_QUALIFIEDNAME(0, "InCyclique");
 
     UA_BrowsePath bp;
     UA_BrowsePath_init(&bp);
@@ -868,14 +908,32 @@ dbechAmrTypeConstructor(UA_Server *server,
         return bpr.statusCode;
 
     /* Set the status value */
-    UA_Int16 cyclique = 0;
-    UA_Variant cycliqueValue;
-    UA_Variant_setScalar(&cycliqueValue, &cyclique, &UA_TYPES[UA_TYPES_INT16]);
-    UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, cycliqueValue);
+    UA_Int16 incyclique = 0;
+    UA_Variant incycliqueValue;
+    UA_Variant_setScalar(&incycliqueValue, &incyclique, &UA_TYPES[UA_TYPES_INT16]);
+    UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, incycliqueValue);
     UA_BrowsePathResult_clear(&bpr);
 
-    /*find Vidage*/
-    rpe.targetName = UA_QUALIFIEDNAME(0, "Vidage");
+    //find OutCyclique
+    rpe.targetName = UA_QUALIFIEDNAME(0, "OutCyclique");
+    UA_BrowsePath_init(&bp);
+    bp.startingNode = *nodeId;
+    bp.relativePath.elementsSize = 1;
+    bp.relativePath.elements = &rpe;
+    bpr = UA_Server_translateBrowsePathToNodeIds(server, &bp);
+    if(bpr.statusCode != UA_STATUSCODE_GOOD ||
+       bpr.targetsSize < 1)
+        return bpr.statusCode;
+        
+    UA_Int16 outcyclique = 0;
+    UA_Variant outcycliqueValue;
+    UA_Variant_setScalar(&outcycliqueValue, &outcyclique, &UA_TYPES[UA_TYPES_INT16]);
+    UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, outcycliqueValue);
+    UA_BrowsePathResult_clear(&bpr);
+    
+    
+    /*find InVidage*/
+    rpe.targetName = UA_QUALIFIEDNAME(0, "InVidage");
     UA_BrowsePath_init(&bp);
     bp.startingNode = *nodeId;
     bp.relativePath.elementsSize = 1;
@@ -886,12 +944,31 @@ dbechAmrTypeConstructor(UA_Server *server,
         return bpr.statusCode;
     
     /* Set the Vidage value */
-    UA_Boolean vidage = 0;
-    UA_Variant vidageValue;
-    UA_Variant_setScalar(&vidageValue, &vidage, &UA_TYPES[UA_TYPES_BOOLEAN]);
-    UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, vidageValue);
+    UA_Boolean invidage = 0;
+    UA_Variant invidageValue;
+    UA_Variant_setScalar(&invidageValue, &invidage, &UA_TYPES[UA_TYPES_BOOLEAN]);
+    UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, invidageValue);
     UA_BrowsePathResult_clear(&bpr);
 
+    
+    /*find OutVidage*/
+    rpe.targetName = UA_QUALIFIEDNAME(0, "OutVidage");
+    UA_BrowsePath_init(&bp);
+    bp.startingNode = *nodeId;
+    bp.relativePath.elementsSize = 1;
+    bp.relativePath.elements = &rpe;
+    bpr = UA_Server_translateBrowsePathToNodeIds(server, &bp);
+    if(bpr.statusCode != UA_STATUSCODE_GOOD ||
+       bpr.targetsSize < 1)
+        return bpr.statusCode;
+    
+    /* Set the Vidage value */
+    UA_Boolean outvidage = 0;
+    UA_Variant outvidageValue;
+    UA_Variant_setScalar(&outvidageValue, &outvidage, &UA_TYPES[UA_TYPES_BOOLEAN]);
+    UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, outvidageValue);
+    UA_BrowsePathResult_clear(&bpr);
+    
 
     return UA_STATUSCODE_GOOD;
 }
@@ -1003,9 +1080,9 @@ missionDataTypeConstructor(UA_Server *server,
         return bpr.statusCode;
 
     /* Set the AckPano value */
-    UA_Boolean ackPano = true;
+    UA_Int32 ackPano = 0;
     UA_Variant ackPanoValue;
-    UA_Variant_setScalar(&ackPanoValue, &ackPano, &UA_TYPES[UA_TYPES_BOOLEAN]);
+    UA_Variant_setScalar(&ackPanoValue, &ackPano, &UA_TYPES[UA_TYPES_INT32]);
     UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, ackPanoValue);
     UA_BrowsePathResult_clear(&bpr);
 
@@ -1170,7 +1247,7 @@ int main(void) {
     
     //// |- Zones    
     defineObjectTypesZones(server);
-    UA_NodeId zonesId = addZonesObjectInstance(server, "Zones", batId);    
+    UA_NodeId zonesId = addZonesObjectInstance(server, "SousZones", batId);    
     //      |- Zone
     defineObjectTypesZone(server);
     //          |- Gares
@@ -1182,39 +1259,61 @@ int main(void) {
     //              |- MissionData        
     defineObjectTypesMissionData(server);
 
-zoneFactory(server, "Z1",   6, zonesId);
-zoneFactory(server, "Z2",   4, zonesId);
-zoneFactory(server, "Z3",   4, zonesId);
-zoneFactory(server, "Z4",   4, zonesId);
-zoneFactory(server, "Z5",   4, zonesId);
-zoneFactory(server, "Z6",   4, zonesId);    
-zoneFactory(server, "Z7",   4, zonesId);
-zoneFactory(server, "Z8",   4, zonesId);
-zoneFactory(server, "Z9",   4, zonesId);
-zoneFactory(server, "Z10",   4, zonesId);
-zoneFactory(server, "Z11",   4, zonesId);
-zoneFactory(server, "Z12",   12, zonesId);
-zoneFactory(server, "Z13",   6, zonesId);
-zoneFactory(server, "Z14",   4, zonesId);
-zoneFactory(server, "Z15",   4, zonesId);
-zoneFactory(server, "Z16",   12, zonesId);
-zoneFactory(server, "Z17",   4, zonesId);
-zoneFactory(server, "Z18",   4, zonesId);
-zoneFactory(server, "Z19",   4, zonesId);
-zoneFactory(server, "Z20",   4, zonesId);
-zoneFactory(server, "Z21",   4, zonesId);
-zoneFactory(server, "Z22",   10,zonesId);
-zoneFactory(server, "Z23",   4,zonesId);
-zoneFactory(server, "Z24",   4,zonesId);
-zoneFactory(server, "Z25",   16,zonesId);
-zoneFactory(server, "Z26",   68,zonesId);
-zoneFactory(server, "Z27",   2,zonesId);
-zoneFactory(server, "Z28",   2,zonesId);
-zoneFactory(server, "Z29",   6,zonesId);
-zoneFactory(server, "Z30",   12,zonesId);
-zoneFactory(server, "Z31",   12,zonesId);
-zoneFactory(server, "Z32",   10,zonesId);
-    
+zoneFactory(server, "SZ1",   2, zonesId);
+zoneFactory(server, "SZ2",   2, zonesId);
+zoneFactory(server, "SZ3",   2, zonesId);
+zoneFactory(server, "SZ4",   2, zonesId);
+zoneFactory(server, "SZ5",   2, zonesId);
+
+zoneFactory(server, "SZ6",   4, zonesId);    
+zoneFactory(server, "SZ7",   4, zonesId);
+
+zoneFactory(server, "SZ8",    4, zonesId);
+zoneFactory(server, "SZ9",    4, zonesId);
+zoneFactory(server, "SZ10",   4, zonesId);
+zoneFactory(server, "SZ11",   4, zonesId);
+
+zoneFactory(server, "SZ12",   2, zonesId);
+zoneFactory(server, "SZ13",   2, zonesId);
+
+zoneFactory(server, "SZ14",   2, zonesId);
+zoneFactory(server, "SZ15",   2, zonesId);
+zoneFactory(server, "SZ16",   2, zonesId);
+zoneFactory(server, "SZ17",   2, zonesId);
+zoneFactory(server, "SZ18",   2, zonesId);
+zoneFactory(server, "SZ19",   2, zonesId);
+zoneFactory(server, "SZ20",   2, zonesId);
+
+zoneFactory(server, "SZ21",   6, zonesId);
+zoneFactory(server, "SZ22",   4,zonesId);
+
+zoneFactory(server, "SZ23",   4,zonesId);
+zoneFactory(server, "SZ24",   7,zonesId);
+zoneFactory(server, "SZ25",   7,zonesId);
+zoneFactory(server, "SZ26",   6,zonesId);
+zoneFactory(server, "SZ27",   2,zonesId);
+zoneFactory(server, "SZ28",   7,zonesId);
+zoneFactory(server, "SZ29",   7,zonesId);
+zoneFactory(server, "SZ30",   6,zonesId);
+
+zoneFactory(server, "SZ31",   4,zonesId);
+zoneFactory(server, "SZ32",   4,zonesId);
+zoneFactory(server, "SZ33",   4, zonesId);
+zoneFactory(server, "SZ34",   4, zonesId);
+
+zoneFactory(server, "SZ35",   6, zonesId);
+zoneFactory(server, "SZ36",   2, zonesId);
+zoneFactory(server, "SZ37",   1, zonesId);
+zoneFactory(server, "SZ38",   2, zonesId);
+zoneFactory(server, "SZ39",   1,zonesId);
+zoneFactory(server, "SZ40",   2,zonesId);
+
+zoneFactory(server, "SZ41",   4,zonesId);
+zoneFactory(server, "SZ42",   12,zonesId);
+zoneFactory(server, "SZ43",   16,zonesId);
+zoneFactory(server, "SZ44",   66,zonesId);
+zoneFactory(server, "SZ45",   2,zonesId);
+
     
     UA_StatusCode retval = UA_Server_run(server, &running);
 
