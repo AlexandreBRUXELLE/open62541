@@ -94,8 +94,8 @@ manuallyDefineBat40(UA_Server *server) {
     
     
     UA_VariableAttributes automatBit2VieAttr = UA_VariableAttributes_default;
-    UA_Boolean automatBit2VieValue = true;
-    UA_Variant_setScalar(&automatBit2VieAttr.value, &automatBit2VieValue, &UA_TYPES[UA_TYPES_BOOLEAN]);
+    UA_Int32 automatBit2VieValue = 0;
+    UA_Variant_setScalar(&automatBit2VieAttr.value, &automatBit2VieValue, &UA_TYPES[UA_TYPES_INT32]);
     automatBit2VieAttr.displayName = UA_LOCALIZEDTEXT("en-US", "AutomateBit2Vie");
     automatBit2VieAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
@@ -124,8 +124,8 @@ manuallyDefineBat40(UA_Server *server) {
                               UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), modeVidageAttr, NULL, NULL);
     
     UA_VariableAttributes panorameBit2VieAttr = UA_VariableAttributes_default;
-    UA_Boolean panorameBit2VieValue = true;
-    UA_Variant_setScalar(&panorameBit2VieAttr.value, &panorameBit2VieValue, &UA_TYPES[UA_TYPES_BOOLEAN]);
+    UA_Int32 panorameBit2VieValue = 0;
+    UA_Variant_setScalar(&panorameBit2VieAttr.value, &panorameBit2VieValue, &UA_TYPES[UA_TYPES_INT32]);
     panorameBit2VieAttr.displayName = UA_LOCALIZEDTEXT("en-US", "PanoramaBit2Vie");
     panorameBit2VieAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, batId,
@@ -521,9 +521,9 @@ defineObjectTypesDbEchAmr(UA_Server *server) {
                            UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
     
     UA_VariableAttributes outvidageAttr = UA_VariableAttributes_default;
-    invidageAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutVidage");
-    invidageAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
-    invidageAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
+    outvidageAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutVidage");
+    outvidageAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outvidageAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
     UA_NodeId outvidageId;
     UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
                               UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
@@ -677,6 +677,182 @@ defineObjectTypesDbEchAmr(UA_Server *server) {
     UA_Server_addReference(server, inPgTypePieceId,
                            UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
                            UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+
+    
+    UA_VariableAttributes outPdAutoInAttr = UA_VariableAttributes_default;
+    outPdAutoInAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutPdAutoIn");
+    outPdAutoInAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outPdAutoInAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
+    UA_NodeId outPdAutoInAId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutPdAutoIn"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outPdAutoInAttr, NULL, &outPdAutoInAId);
+    /* Make the contenu mandatory */
+    UA_Server_addReference(server, outPdAutoInAId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+    
+    UA_VariableAttributes outPgAutoInAttr = UA_VariableAttributes_default;
+    outPgAutoInAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutPgAutoIn");
+    outPgAutoInAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outPgAutoInAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
+    UA_NodeId outPgAutoInAId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutPgAutoIn"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outPgAutoInAttr, NULL, &outPgAutoInAId);
+    /* Make the contenu mandatory */
+    UA_Server_addReference(server, outPgAutoInAId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+    
+    UA_VariableAttributes outPdAutoOutAttr = UA_VariableAttributes_default;
+    outPdAutoOutAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutPdAutoOut");
+    outPdAutoOutAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outPdAutoOutAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
+    UA_NodeId outPdAutoOutAId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutPdAutoOut"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outPdAutoOutAttr, NULL, &outPdAutoOutAId);
+    /* Make the contenu mandatory */
+    UA_Server_addReference(server, outPdAutoOutAId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+
+    UA_VariableAttributes outPgAutoOutAttr = UA_VariableAttributes_default;
+    outPgAutoOutAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutPgAutoOut");
+    outPgAutoOutAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outPgAutoOutAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
+    UA_NodeId outPgAutoOutAId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutPgAutoOut"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outPgAutoOutAttr, NULL, &outPgAutoOutAId);
+    /* Make the contenu mandatory */
+    UA_Server_addReference(server, outPgAutoOutAId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+        
+
+    UA_VariableAttributes outPdDdeChargAttr = UA_VariableAttributes_default;
+    outPdDdeChargAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutPdDdeCharg");
+    outPdDdeChargAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outPdDdeChargAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
+    UA_NodeId outPdDdeChargId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutPdDdeCharg"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outPdDdeChargAttr, NULL, &outPdDdeChargId);
+    /* Make the contenu mandatory */
+    UA_Server_addReference(server, outPdDdeChargId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+
+    UA_VariableAttributes outPgDdeChargAttr = UA_VariableAttributes_default;
+    outPgDdeChargAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutPgDdeCharg");
+    outPgDdeChargAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outPgDdeChargAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
+    UA_NodeId outPgDdeChargId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutPgDdeCharg"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outPgDdeChargAttr, NULL, &outPgDdeChargId);
+    /* Make the contenu mandatory */
+    UA_Server_addReference(server, outPgDdeChargId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+
+    
+    UA_VariableAttributes outPgDdeDechaAttr = UA_VariableAttributes_default;
+    outPgDdeDechaAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutPgDdeDecha");
+    outPgDdeDechaAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outPgDdeDechaAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
+    UA_NodeId outPgDdeDechaId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutPgDdeDecha"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outPgDdeDechaAttr, NULL, &outPgDdeDechaId);
+    /* Make the contenu mandatory */
+    UA_Server_addReference(server, outPgDdeDechaId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+
+    UA_VariableAttributes outPdDdeDechaAttr = UA_VariableAttributes_default;
+    outPdDdeDechaAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutPdDdeDecha");
+    outPdDdeDechaAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outPdDdeDechaAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
+    UA_NodeId outPdDdeDechaId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutPdDdeDecha"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outPdDdeDechaAttr, NULL, &outPdDdeDechaId);
+    /* Make the contenu mandatory */
+    UA_Server_addReference(server, outPdDdeDechaId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+
+    
+    UA_VariableAttributes outPdPresBalAttr = UA_VariableAttributes_default;
+    outPdPresBalAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutPdPresBal");
+    outPdPresBalAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outPdPresBalAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
+    UA_NodeId outPdPresBalId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutPdPresBal"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outPdPresBalAttr, NULL, &outPdPresBalId);
+    /* Make the contenu mandatory */
+    UA_Server_addReference(server, outPdPresBalId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+
+
+    UA_VariableAttributes outPgPresBalAttr = UA_VariableAttributes_default;
+    outPgPresBalAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutPgPresBal");
+    outPgPresBalAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outPgPresBalAttr.dataType = UA_TYPES[UA_TYPES_BOOLEAN].typeId ;
+    UA_NodeId outPgPresBalId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutPgPresBal"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outPgPresBalAttr, NULL, &outPgPresBalId);
+    /* Make the contenu mandatory */
+    UA_Server_addReference(server, outPgPresBalId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+
+
+    UA_VariableAttributes outPgTypePieceAttr = UA_VariableAttributes_default;
+    outPgTypePieceAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutPgTypePiece");
+    outPgTypePieceAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outPgTypePieceAttr.dataType = UA_TYPES[UA_TYPES_INT16].typeId ;
+    UA_NodeId outPgTypePieceId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutPgTypePiece"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outPgTypePieceAttr, NULL, &outPgTypePieceId);
+    /* Make the contenu mandatory */
+    UA_Server_addReference(server, outPgTypePieceId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+
+    
+    UA_VariableAttributes outPdTypePieceAttr = UA_VariableAttributes_default;
+    outPdTypePieceAttr.displayName = UA_LOCALIZEDTEXT("en-US", "OutPdTypePiece");
+    outPdTypePieceAttr.accessLevel = UA_ACCESSLEVELMASK_READ | UA_ACCESSLEVELMASK_WRITE;
+    outPdTypePieceAttr.dataType = UA_TYPES[UA_TYPES_INT16].typeId ;
+    UA_NodeId outPdTypePieceId;
+    UA_Server_addVariableNode(server, UA_NODEID_NULL, dbEchAmrId,
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT),
+                              UA_QUALIFIEDNAME(0, "OutPdTypePiece"),
+                              UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE), outPdTypePieceAttr, NULL, &outPdTypePieceId);
+    /* Make the contenu mandatory */
+    UA_Server_addReference(server, outPdTypePieceId,
+                           UA_NODEID_NUMERIC(0, UA_NS0ID_HASMODELLINGRULE),
+                           UA_EXPANDEDNODEID_NUMERIC(0, UA_NS0ID_MODELLINGRULE_MANDATORY), true);
+
     
     // Define the object type for "DbEchAmr" 
     UA_ObjectTypeAttributes dbtAttr = UA_ObjectTypeAttributes_default;
@@ -1101,6 +1277,25 @@ posteTypeConstructor(UA_Server *server,
     UA_Variant autoOutValue;
     UA_Variant_setScalar(&autoOutValue, &autoOut, &UA_TYPES[UA_TYPES_BOOLEAN]);
     UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, autoOutValue);
+    UA_BrowsePathResult_clear(&bpr);
+    
+    
+    /*find AutoOut*/
+    rpe.targetName = UA_QUALIFIEDNAME(0, "OutVidage");
+    UA_BrowsePath_init(&bp);
+    bp.startingNode = *nodeId;
+    bp.relativePath.elementsSize = 1;
+    bp.relativePath.elements = &rpe;
+    bpr = UA_Server_translateBrowsePathToNodeIds(server, &bp);
+    if(bpr.statusCode != UA_STATUSCODE_GOOD ||
+       bpr.targetsSize < 1)
+        return bpr.statusCode;
+        
+    /* Set the outVidage value */
+    UA_Boolean outVidage = false;
+    UA_Variant outVidageValue;
+    UA_Variant_setScalar(&outVidageValue, &outVidage, &UA_TYPES[UA_TYPES_INT16]);
+    UA_Server_writeValue(server, bpr.targets[0].targetId.nodeId, outVidageValue);
     UA_BrowsePathResult_clear(&bpr);
     /* At this point we could replace the node context .. */
 
